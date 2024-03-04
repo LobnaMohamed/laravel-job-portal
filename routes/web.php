@@ -32,4 +32,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::group(
+    ['middleware'=>['auth', 'verified', 'user.role:candidate'],
+    'prefix'=> 'candidate',
+    'as'=>'candidate'], //route name
+    function(){
+    Route::get('company/dashboard', function () {
+        return view('dashboard')->name('candidate.dashboard');
+    });
+
+});
 require __DIR__.'/auth.php';
